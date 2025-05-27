@@ -51,7 +51,7 @@ app.use(cors({
     
     const allowedOrigins = [
       'https://vhass-frontend.vercel.app',
-      'http://localhost:5001'
+      'https://vhass-backend.onrender.com'
     ];
     
     if (allowedOrigins.indexOf(origin) !== -1) {

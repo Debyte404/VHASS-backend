@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: vhass-server
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: MONGODB_URI
+        fromService:
+          name: mongodb
+          type: pserv
+          property: connectionString
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: FRONTEND_URL
+        value: https://vhass-frontend.vercel.app
+      - key: NODE_ENV
+        value: production

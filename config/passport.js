@@ -6,7 +6,7 @@ import { User } from '../models/User.js';
 const googleConfig = {
   clientID: '8739533127-rvga58btf64j28njdjdq84r2kof2h4n4.apps.googleusercontent.com',
   clientSecret: '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',
-  callbackURL: 'http://localhost:5001/api/auth/google/callback'
+  callbackURL: 'https://vhass-backend.onrender.com/api/auth/google/callback'
 };
 
 console.log('Google OAuth Configuration:', {

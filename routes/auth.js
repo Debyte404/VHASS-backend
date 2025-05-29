@@ -36,10 +36,10 @@ router.get('/google/callback',
     try {
       console.log('Google authentication successful, setting session...');
       req.session.user = req.user;
-      res.redirect('http://localhost:3000/');
+      res.redirect(process.env.FRONTEND_URL);
     } catch (error) {
       console.error('Error in Google callback:', error);
-      res.redirect('http://localhost:3000/login?error=auth_failed');
+      res.redirect('https://vhass-frontend.vercel.app/login?error=auth_failed');
     }
   }
 );

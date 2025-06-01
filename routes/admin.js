@@ -40,7 +40,7 @@ const errorHandler = (err, req, res, next) => {
 router.options('*', (req, res) => {
   // const allowedOrigins = [process.env.FRONTEND_URL, 'http://localhost:5173'];
   const allowedOrigins = [process.env.FRONTEND_URL, process.env.PHONEPE_REDIRECT_URL];
-  const origin = req.header('Origin');
+  const origin = req.header('origin');
   
   if (allowedOrigins.includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin);

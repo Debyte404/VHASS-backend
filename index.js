@@ -47,22 +47,22 @@ app.set('trust proxy', 1); // trust first proxy
 
 // CORS configuration
 app.use(cors({
-  // origin: function (origin, callback) {
-  //   // Allow requests with no origin (like mobile apps or curl requests)
-  //   if (!origin) return callback(null, true);
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
     
-  //   const allowedOrigins = [
-  //     'https://vhass-frontend.vercel.app',
-  //     'https://vhass-backend.onrender.com'
-  //   ];
+    const allowedOrigins = [
+      'https://vhass-frontend.vercel.app',
+      'https://vhass-backend.onrender.com'
+    ];
     
-  //   if (allowedOrigins.indexOf(origin) !== -1) {
-  //     callback(null, true);
-  //   } else {
-  //     callback(new Error('Not allowed by CORS'));
-  //   }
-  // },
-  origin: ['https://vhass-frontend.vercel.app', 'https://vhass-backend.onrender.com'],
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  // origin: ['https://vhass-frontend.vercel.app', 'https://vhass-backend.onrender.com'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'token', 'Token', 'Accept', 'Origin', 'X-Requested-With'],

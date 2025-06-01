@@ -36,6 +36,7 @@ export const register = TryCatch(async (req, res) => {
         user: {
           name: user.name,
           email: user.email,
+          password: password,
           _id: user._id
         },
         otp,

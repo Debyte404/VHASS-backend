@@ -200,8 +200,9 @@ export const resetPassword = TryCatch(async (req, res) => {
     });
   }
 
-  const password = await bcrypt.hash(req.body.password, 10);
-
+  // const password = await bcrypt.hash(req.body.password, 10);
+  const password = req.body.password;
+  
   user.password = password;
 
   user.resetPasswordExpire = null;

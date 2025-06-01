@@ -18,8 +18,8 @@ const router = express.Router();
 router.get("/course/all", getAllCourses);
 
 // Update lecture route to use uploadFiles middleware
-router.post("/course/:id", isAuth, isAdmin, uploadFiles.fields([{ name: 'file', maxCount: 1 }]), addLectures);
 router.post("/course/new", isAuth, isAdmin, createCourse);
+router.post("/course/:id", isAuth, isAdmin, uploadFiles.fields([{ name: 'file', maxCount: 1 }]), addLectures);
 router.delete("/course/:id", isAuth, isAdmin, deleteCourse);
 router.get("/course/:id", getSingleCourse);
 router.get("/lectures/:id", isAuth, fetchLectures);

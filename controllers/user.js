@@ -92,11 +92,26 @@ export const verifyUser = TryCatch(async (req, res) => {
       message: "Wrong Otp",
     });
 
-  await User.create({
-    name: verify.user.name,
-    email: verify.user.email,
-    password: verify.user.password,
-  });
+  // await User.create({
+  //   name: verify.user.name,
+  //   email: verify.user.email,
+  //   password: verify.user.password,
+  // });
+  await User.findOneAndUpdate(
+    { email: verify.user.email }, // Find by unique field (e.g., email)
+    {
+      $set: {
+        name: verify.user.name,
+        password: verify.user.password
+        // Add other fields as needed
+      }
+    },
+    {
+      upsert: true,      // Create if not found
+      new: true,         // Return the updated/created document
+      runValidators: true // Run schema validators
+    }
+  );
 
   res.json({
     message: "User Registered",

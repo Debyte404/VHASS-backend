@@ -55,7 +55,7 @@ router.options('*', (req, res) => {
 
 // Get all stats route
 // router.get('/stats', isAuth, isAdmin, getAllStats);
-router.get('/stats', isAuth, getAllStats);
+router.post('/stats', isAuth, getAllStats);
 // Routes that handle file uploads
 router.post("/course/:id", isAuth, isAdmin, uploadFiles.fields([{ name: 'file', maxCount: 1 }]), addLectures);
 

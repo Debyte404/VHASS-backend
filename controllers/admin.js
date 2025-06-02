@@ -1,6 +1,6 @@
 import { Courses } from "../models/Courses.js";
 import { Lecture } from "../models/Lecture.js";
-import { Workshop } from "../models/Workshop.js";
+// import { Workshop } from "../models/Workshop.js";
 import { rm } from "fs";
 import { promisify } from "util";
 import fs from "fs";

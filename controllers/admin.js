@@ -1,10 +1,12 @@
 import { Courses } from "../models/Courses.js";
 import { Lecture } from "../models/Lecture.js";
+import { Workshop } from "../models/Workshop.js";
 import { rm } from "fs";
 import { promisify } from "util";
 import fs from "fs";
 import { User } from "../models/User.js";
 import path from "path";
+import { Workshop } from "../models/Workshop.js";
 
 // Ensure uploads directory exists
 const uploadsDir = path.join(process.cwd(), 'uploads');
@@ -241,17 +243,24 @@ export const deleteCourse = async (req, res, next) => {
 
 export const getAllStats = async (req, res, next) => {
   try {
-    const totalCoures = (await Courses.find()).length;
-    const totalLectures = (await Lecture.find()).length;
-    const totalUsers = (await User.find()).length;
+    // const totalCoures = (await Courses.find()).length;
+    const totalCourses = await Courses.countDocuments({});
+    // const totalLectures = (await Lecture.find()).length;
+    const totalLectures = await Lecture.countDocuments({});
+    // const totalUsers = (await User.find()).length;
+    const totalUsers = await User.countDocuments({});
+
+    const totalWorkshops = await Workshop.countDocuments({}); // Placeholder for workshop count if needed
 
     const stats = {
-      totalCoures,
-      totalLectures,
-      totalUsers,
+      courses : totalCourses,
+      lectures : totalLectures,
+      users : totalUsers,
+      workshops : totalWorkshops,
     };
 
-    res.json({ stats });
+    // res.json({ stats });
+    res.json(stats);
   } catch (error) {
     console.error('Error getting stats:', error);
     res.status(500).json({

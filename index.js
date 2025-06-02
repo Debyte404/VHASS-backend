@@ -132,6 +132,9 @@ import adminRoutes from "./routes/admin.js";
 import workshopRoutes from "./routes/workshop.js";
 
 // using routes
+app.use("/api/admin", adminRoutes);
+console.log('Registered admin routes:', adminRoutes.stack.map(r => r.route ? `/admin${r.route.path}` : 'unknown'));
+
 app.use("/api/auth", authRoutes);
 console.log('Registered auth routes:', authRoutes.stack.map(r => r.route ? r.route.path : 'unknown'));
 
@@ -140,9 +143,6 @@ console.log('Registered user routes:', userRoutes.stack.map(r => r.route ? r.rou
 
 app.use("/api", courseRoutes);
 console.log('Registered course routes:', courseRoutes.stack.map(r => r.route ? r.route.path : 'unknown'));
-
-app.use("/api/admin", adminRoutes);
-console.log('Registered admin routes:', adminRoutes.stack.map(r => r.route ? `/admin${r.route.path}` : 'unknown'));
 
 app.use("/api", workshopRoutes);
 console.log('Registered workshop routes:', workshopRoutes.stack.map(r => r.route ? r.route.path : 'unknown'));

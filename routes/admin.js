@@ -38,15 +38,15 @@ const errorHandler = (err, req, res, next) => {
 
 // CORS Preflight handler
 router.options('*', (req, res) => {
-  // const allowedOrigins = [process.env.FRONTEND_URL, 'http://localhost:5173'];
-  // const allowedOrigins = [process.env.FRONTEND_URL, process.env.PHONEPE_REDIRECT_URL];
-  // const allowedOrigins = [process.env.FRONTEND_URL, process.env.PHONEPE_REDIRECT_URL];
-  // const origin = req.header('origin');
+  const allowedOrigins = [process.env.FRONTEND_URL, 'http://localhost:5173'];
+  const allowedOrigins = [process.env.FRONTEND_URL, process.env.PHONEPE_REDIRECT_URL];
+  const allowedOrigins = [process.env.FRONTEND_URL, process.env.PHONEPE_REDIRECT_URL];
+  const origin = req.header('origin');
   
-  // if (allowedOrigins.includes(origin)) {
-  //   res.header('Access-Control-Allow-Origin', origin);
-  // }
-  res.header('Access-Control-Allow-Origin', '*');
+  if (allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+  // res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
   res.header('Access-Control-Allow-Headers', '*');
   res.header('Access-Control-Allow-Credentials', 'true');

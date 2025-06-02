@@ -32,6 +32,9 @@ import passport from './config/passport.js';
 
 const app = express();
 
+// Serve files from the uploads directory
+app.use('/uploads', express.static('/opt/render/project/src/uploads'));
+
 // Debug middleware
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.path}`);

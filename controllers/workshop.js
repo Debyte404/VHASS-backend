@@ -54,10 +54,10 @@ export const createWorkshop = TryCatch(async (req, res) => {
     console.log('Full request files:', req.files);
     console.log('Full request file:', req.file);
 
-    const { title, description, createdBy, duration, price, category, date, time, location, syllabus, whoShouldAttend, prerequisites } = req.body;
+    const { title, description, createdBy, duration, price, category, date, time, location,poster, syllabus, whoShouldAttend, prerequisites } = req.body;
     
     // Validate required fields
-    const requiredFields = ['title', 'description', 'createdBy', 'duration', 'price', 'category', 'date', 'time', 'location'];
+    const requiredFields = ['title', 'description', 'createdBy', 'duration', 'price', 'category', 'date', 'time', 'location', 'poster'];
     for (const field of requiredFields) {
       if (!req.body[field]) {
         return res.status(400).json({
@@ -66,31 +66,31 @@ export const createWorkshop = TryCatch(async (req, res) => {
       }
     }
 
-    // Handle file upload
-    const image = req.file || req.files?.file;
-    if (!image) {
-      console.error("No file uploaded");
-      return res.status(400).json({
-        message: "Please upload an image file"
-      });
-    }
+    // // Handle file upload
+    // const image = req.file || req.files?.file;
+    // if (!image) {
+    //   console.error("No file uploaded");
+    //   return res.status(400).json({
+    //     message: "Please upload an image file"
+    //   });
+    // }
 
-    // Parse array fields
-    const parseSafeArray = (field) => {
-      try {
-        return Array.isArray(req.body[field]) ? req.body[field] : 
-               (typeof req.body[field] === 'string' ? JSON.parse(req.body[field]) : [])
-      } catch {
-        return [];
-      }
-    };
+    // // Parse array fields
+    // const parseSafeArray = (field) => {
+    //   try {
+    //     return Array.isArray(req.body[field]) ? req.body[field] : 
+    //            (typeof req.body[field] === 'string' ? JSON.parse(req.body[field]) : [])
+    //   } catch {
+    //     return [];
+    //   }
+    // };
 
-    console.log("File details:", {
-      filename: image.filename,
-      path: image.path,
-      mimetype: image.mimetype,
-      size: image.size
-    });
+    // console.log("File details:", {
+    //   filename: image.filename,
+    //   path: image.path,
+    //   mimetype: image.mimetype,
+    //   size: image.size
+    // });
 
     // Validate required fields
     if (!title || !description || !createdBy || !duration || !price || !category || !date || !time || !location) {
@@ -104,7 +104,7 @@ export const createWorkshop = TryCatch(async (req, res) => {
       title,
       description,
       createdBy,
-      image: image.path,
+      image: poster,
       duration,
       price,
       category,
@@ -125,16 +125,30 @@ export const createWorkshop = TryCatch(async (req, res) => {
   } catch (error) {
     console.error("Error creating workshop:", error);
     
-    // If workshop creation fails, delete the uploaded file
-    if (req.file && req.file.path) {
-      try {
-        await fs.promises.unlink(req.file.path);
-        console.log("Deleted uploaded file after error");
-      } catch (unlinkError) {
-        console.error('Error deleting file:', unlinkError);
-      }
+    // // If workshop creation fails, delete the uploaded file
+    // if (req.file && req.file.path) {
+    //   try {
+    //     await fs.promises.unlink(req.file.path);
+    //     console.log("Deleted uploaded file after error");
+    //   } catch (unlinkError) {
+    //     console.error('Error deleting file:', unlinkError);
+    //   }
+    // }
+     // Handle specific MongoDB errors
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({
+        success: false,
+        message: "Validation error",
+        error: Object.values(error.errors).map(err => err.message)
+      });
     }
 
+    if (error.code === 11000) {
+      return res.status(400).json({
+        success: false,
+        message: "A workshop with this title already exists"
+      });
+    }
     // Send detailed error message
     res.status(500).json({
       message: "Failed to create workshop",
